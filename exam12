@@ -1,0 +1,77 @@
+import xlsxwriter
+
+
+list4=['hakobyan','petrosyan','samvelyan','arevshatyan','grigoryan','harutyunyan','sargsyan']
+list3 = ['mek', 'erku', 'ereq', 'chors', 'hing','vec','yot']
+
+time = {'mek': 40, 'erku': 20, 'ereq': 18, 'chors': 6, 'hing': 2,'vec':14,'yot':10}
+time2 = {'mek': 40, 'erku': 20, 'ereq': 18, 'chors': 6, 'hing': 2,'vec':14,'yot':10}
+
+
+def func():
+    x = 0.5
+    while sum(time.values()) != 0:
+
+        week = []
+        for j in range(5):
+            day = []
+            for s in range(4):
+                for k in range(len(list3)):
+                    if time2[list3[k]] * x < time[list3[k]]:
+                        day.append(list4[k])
+                        time[list3[k]] -= 1
+                        break
+            if len(day) > 0:
+                week.append(day)
+
+        x = 0
+        yield week
+da=[]
+
+for i in func():
+    week1 = []
+    for j in i:
+        week1.append(j)
+    da.append(week1)
+
+
+list1=list(zip(da[0],da[2],da[4]))
+list2=list(zip(da[1],da[3],da[5]))
+print('jame',('  1 ','2   ','3   ','4   ')*3)
+x=1
+for i in list1:
+
+    print('or',x,end='')
+    x+=1
+    print(i)
+print('********************')
+x = 1
+for j in list2:
+
+    print('or', x,end='')
+    x += 1
+    print(j)
+for i in range(len(list1)):
+    list1[i]=list1[i][0]+['']+list1[i][1]+['']+list1[i][2]
+print(list1[4],len(list1))
+workbook = xlsxwriter.Workbook('Expenses01.xlsx')
+worksheet = workbook.add_worksheet()
+for j in range(5):
+    if j>0:
+            worksheet.write(0,j,'JAM '+str(j))
+            worksheet.write(0,j+5,'JAM '+str(j))
+            worksheet.write(0,j+10,'JAM '+str(j))
+for j in range(6):
+    if j>0:
+            worksheet.write(j,0,'OR '+str(j))
+ls=[' 23.00 b',' 23.00 g',' 23.31',' 23.37',' 24.27']
+
+for i in range(len(list1)):
+    for j in range(len(list1[i])):
+            for k in ls:
+
+
+             worksheet.write(i+1, j+1,list1[i][j])
+
+
+workbook.close()
